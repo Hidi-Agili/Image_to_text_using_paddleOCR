@@ -28,13 +28,13 @@
             var imageFile = document.getElementById("imageFile").files[0];
             formData.append("image", imageFile);
 
-            fetch("/extract_text", {
+            fetch("/upload", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("result").innerText = data.extracted_text;
+                document.getElementById("result").innerText = data.text;
             })
             .catch(error => console.error("Error:", error));
         }
