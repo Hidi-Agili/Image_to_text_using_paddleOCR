@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Text Extraction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>OCR Text Extraction</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="imageFile" id="imageFile">
+        <button type="button" onclick="uploadImage()">Extract Text</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function uploadImage() {
+            var formData = new FormData();
+            var imageFile = document.getElementById("imageFile").files[0];
+            formData.append("image", imageFile);
+
+            fetch("/extract_text", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = data.extracted_text;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
